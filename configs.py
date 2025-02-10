@@ -1,6 +1,6 @@
 import secrets
 import streamlit as st
-Gemini = st.secrets['Gemini']
+Gemini = st.secrets["Gemini"]["Gemini"]
 MODEL_CONFIG = {
     "coding": {
         "model_name": "qwen/qwen-2.5-coder-32b-instruct",

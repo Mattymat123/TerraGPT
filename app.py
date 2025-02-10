@@ -12,7 +12,7 @@ import uuid
 from get_response import get_response
 from chat_to_conversation_history import chat_to_conversation_history
 
-diamond = st.secrets['diamond']
+diamond = st.secrets["diamond"]["diamond"]
 
 with open('frontend/styles.css') as f:
     css = f.read()
