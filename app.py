@@ -3,103 +3,101 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
+from notdiamond import NotDiamond
 import os
+from Classify_function import classify_diamond
+from footer import footer
+from configs import MODEL_CONFIG
+import uuid
+from get_response import get_response
+from chat_to_conversation_history import chat_to_conversation_history
+with open('frontend/styles.css') as f:
+    css = f.read()
 
-st.set_page_config(page_title="TerraGPT")
-st.header("TerraGPT")
-st.subheader("Dine spørgsmål bruger en 30 gange mindre AI-model end chatGPT 🍃🍃🍃 \n ")
+os.environ["OPENAI_API_BASE"] = "https://openrouter.ai/api/v1"
+os.environ["ND_API_KEY"] = "sk-9757bf097cf91c6727a251c97e278338a254c18d4f309020"
 
-st.markdown("""
-    <style>
-        .top-right-box {
-            position: fixed;
-            bottom: 70px;
-            left: 10px;
-            background-color: #052802;
-            color: white;
-            font-size:20px;
-            padding: 20px;
-            border-radius: 10px;
-            z-index: 1000;
-        }
-    </style>
-""", unsafe_allow_html=True)
+st.set_page_config(page_title="TerraGPT", initial_sidebar_state="expanded", layout = 'wide')
+left_column, right_column = st.columns(2)
 
-# Display content inside the box
-
-
-TOKEN = "super-secret-token"
-os.environ["OPENAI_API_BASE"] = "https://mattymat123--modal-first-deploy-serve.modal.run/v1"
-os.environ["OPENAI_API_KEY"] = f"{TOKEN}"
-
-# Make sure to store conversation in session_state
+if "conversation_history" not in st.session_state:
+    st.session_state.conversation_history = {}
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-
-def get_response(user_query, chat_history):
-    template = """You are a helpful and  polite chatbot speaking both english and danish. Answer the user helpfully in whatever language they input based on the User question and the Chat history.  User question og Chat history:
-    Chat history: {chat_history}
-
-    User question: {user_question}
-    """
-    prompt = ChatPromptTemplate.from_template(template)
-    llm = ChatOpenAI(
-        model_name="Meta-Llama-3.1-8B-Instruct-quantized.w4a16",
-        streaming=False,
-        temperature=0.8,
-    )
-    chain = prompt | llm | StrOutputParser()
-    # chain.stream(...) returns a generator
-    return chain.stream(
-        {
-            "chat_history": chat_history,
-            "user_question": user_query
-        }
-    )
+st.markdown(footer, unsafe_allow_html=True)
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+st.markdown('<meta name="viewport" content="width=device-width, initial-scale=1.0">', unsafe_allow_html=True)
 
 
-# 1) Capture the new user query via Streamlit's chat input
+#right side of screen.
 user_query = st.chat_input("Din besked")
+client = NotDiamond(api_key="sk-9757bf097cf91c6727a251c97e278338a254c18d4f309020")
+final_label, model = classify_diamond("Your prompt here")
+print(final_label)
+def energi_sparet(provider_model):
+    deepseek_forskelle = {
+        'llama-3.1-sonar-large-128k-online': 48,
+        'Llama-3-8b-chat-hf': 48,
+        'meta-llama-3-70b-instruct': 9.6,
+        'codestral-latest': 21
+    }
+    deepseek_forskel = deepseek_forskelle.get(provider_model)
+    print(provider_model)
+    return deepseek_forskel
 
 
 
+if user_query:
+    classification, _ = classify_diamond(user_query)
+else:
+    classification = None
 
-# 2) Display all past messages from session_state.
-#    *Do not* call get_response here. We already have the stored AI text in session_state.
+if not st.session_state.chat_history:
+    with st.chat_message("assistant", avatar="frontend/robot.svg"):
+        st.markdown(
+            """
+            <font size="5" >Velkommen til Terra GPT! </font><br>  
+            Med Terra GPT bruger du kunstig intelligens mere energisparsomt.
+            Jeg er klar til dine spørgsmål og opgaver:) 
+            """, unsafe_allow_html=True
+        )
 for message in st.session_state.chat_history:
     if isinstance(message, HumanMessage):
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar="frontend/user.svg"):
             st.markdown(message.content)
     elif isinstance(message, AIMessage):
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar="frontend/robot.svg"):
             st.markdown(message.content)
 
-# 3) If there's a new user query, we now:
-#    - append that query to session_state
-#    - call get_response(...) and stream the output
-#    - store the streamed output in session_state as an AIMessage
+energi = 0
 if user_query:
-    # a) Store the user query in chat_history
     st.session_state.chat_history.append(HumanMessage(content=user_query))
-
-    # b) Display the user's message right away
-    with st.chat_message("user"):
+    with st.chat_message("user", avatar="frontend/user.svg"):
         st.markdown(user_query)
-
-    # c) Stream the LLM's response
-    streamed_response = ""  # accumulate response chunks here
-    with st.chat_message("assistant"):
-        # Create a placeholder to update in a loop
+    streamed_response = ""
+    with st.chat_message("assistant", avatar="frontend/robot.svg"):
         response_placeholder = st.empty()
-
-        # get_response(...) returns a generator
-        for chunk in get_response(user_query, st.session_state.chat_history):
+        for chunk in get_response(user_query, st.session_state.chat_history, classification):
             streamed_response += chunk
-            response_placeholder.markdown(streamed_response + "▌")  # "▌" to show streaming
-
-        # Once done, replace the trailing cursor symbol
+            response_placeholder.markdown(streamed_response + "▌")
+        energi = energi_sparet(model)
+        print(energi)
         response_placeholder.markdown(streamed_response)
-
-    # d) Save the final AI response back to session_state
     st.session_state.chat_history.append(AIMessage(content=streamed_response))
+
+
+#Left side of screen
+with st.sidebar:
+    if energi:
+        st.markdown(f"🐋 bruger {energi} mere energi!")
+    button1 = st.button('New chat')
+    if button1:
+        chat_to_conversation_history(st.session_state.chat_history)
+        #print(st.session_state.conversation_history)
+        for i in st.session_state.conversation_history.keys():
+            st.button(f"{st.session_state.conversation_history[i][0].content}")
+
+
+
+

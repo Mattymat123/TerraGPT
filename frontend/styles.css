@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap');
+
+.oooh-baby-header {
+    font-family: 'Source Sans Pro', sans-serif !important;
+}
+html, body, #root, .stApp > header {
+    background-color: transparent !important;
+    color: #1d2b1c;
+}
+* {
+    color: #f0e7df;
+}
+ main {
+        margin-left: 300px;
+    }
+
+ .stTextInput > div > div > input {
+        background-color: #333 !important;
+        color: #E1D9D1 !important;
+    }
+
+.stApp, .st-emotion-cache-hzygls {
+    margin: auto;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: auto;
+    background-image: linear-gradient(to bottom, #1d2b1c, #253324, #2d3a2c, #354234, #3e4a3d);
+    background-size: 100% 100%; /* Adjusted background size to cover the entire element */
+    background-attachment: fixed;
+
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.stTextInput > div > div > input {
+    background-color: #333 !important;  /* Dark background color */
+    color: #E1D9D1 !important;       /* Light text color */
+}
+
+.st-emotion-cache-u10a3r{ background-color: #121A11 !important;}
+
+.st-emotion-cache-0 eiemyj5 {
+   background-color: #121A11 !important;
+}
+
+.st-emotion-cache-s1k4sy e4p0gdf1{
+    color: #E1D9D1;
+}
+
+.stChatMessage{
+    padding-right: 100px;
+    padding-left: 100px;
+
+}
+.stChatInput{
+    background-color: #1d2b1c;
+    font-size: 12px !important;
+}
+
+
+.sidebar .sidebar-content {
+    background-color: blue;
+    color: #262730;
+}
+
+
+
+.stMarkdown p, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6, .stMarkdown li, .stMarkdown div, .stMarkdown span {
+    font-size: 12px !important;
+}
+
