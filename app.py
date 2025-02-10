@@ -11,11 +11,14 @@ from configs import MODEL_CONFIG
 import uuid
 from get_response import get_response
 from chat_to_conversation_history import chat_to_conversation_history
+
+diamond = st.secrets['diamond']
+
 with open('frontend/styles.css') as f:
     css = f.read()
 
 os.environ["OPENAI_API_BASE"] = "https://openrouter.ai/api/v1"
-os.environ["ND_API_KEY"] = "sk-9757bf097cf91c6727a251c97e278338a254c18d4f309020"
+os.environ["ND_API_KEY"] = diamond
 
 st.set_page_config(page_title="TerraGPT", initial_sidebar_state="expanded", layout = 'wide')
 left_column, right_column = st.columns(2)
