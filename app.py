@@ -126,9 +126,6 @@ if user_query:
         response_placeholder.markdown(streamed_response)
     st.session_state.chat_history.append(AIMessage(content=streamed_response))
 
-st.logo(image = "/Users/bruger/PycharmProjects/TerraGPT/TerraGPT/frontend/icons8-logo-96.svg", size = 'large')
-
-
 # Left side of screen
 with st.sidebar.container():
     col1 = st.columns([1])[0]
