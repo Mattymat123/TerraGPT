@@ -50,25 +50,37 @@ html, body, #root, .stApp > header {
     color: #E1D9D1;
 }
 
-.stChatMessage{
+.stChatMessage {
     padding-right: 100px;
     padding-left: 100px;
+}
 
+@media (max-width: 1279px) {
+    .stChatMessage {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
 }
 .stChatInput{
     background-color: #1d2b1c;
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
-
+.stMarkdown p, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6, .stMarkdown li, .stMarkdown div, .stMarkdown span {
+    font-size: 14px !important;
+}
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh; /* Ensures the sidebar takes the full height of the viewport */
+}
 
 .sidebar .sidebar-content {
-    background-color: blue;
-    color: #262730;
+    flex: 1; /* Allows the content area to expand and push the slider to the bottom */
 }
 
-
-
-.stMarkdown p, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6, .stMarkdown li, .stMarkdown div, .stMarkdown span {
-    font-size: 12px !important;
+.sidebar .sidebar-bottom {
+    margin-top: auto; /* Pushes the slider to the bottom */
 }
 
+.a

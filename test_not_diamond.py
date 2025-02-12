@@ -1,7 +1,10 @@
 from notdiamond import NotDiamond
 import streamlit as st
+
 diamond = st.secrets["diamond"]["diamond"]
 client = NotDiamond(api_key=f"{diamond}")
+
+
 def classify_diamond(prompt):
     session_id, provider = client.chat.completions.model_select(
         messages=[
@@ -17,13 +20,16 @@ def classify_diamond(prompt):
         ],
     )
     model_to_label = {
-        "llama-3.1-sonar-large-128k-online": "web-search",
-        "meta-llama-3-70b-instruct": "instruction",
-        "codestral-latest": "coding",
-        "Llama-3-8b-chat-hf": "conversation",
-        "command-r-plus": "creative_writing"
+        "llama-3.1-sonar-large-128k-online": "web-søgning",
+        "meta-llama-3-70b-instruct": "instruktion",
+        "codestral-latest": "kodning",
+        "Llama-3-8b-chat-hf": "samtale",
+        "command-r-plus": "kreativ-fritext"
     }
     final_label = model_to_label.get(provider.model)
     model = provider.model
     #print("Final label:", final_label, "Provider model:", provider.model)
     return final_label, model
+
+label, model = classify_diamond("how are you?")
+print(label, model)

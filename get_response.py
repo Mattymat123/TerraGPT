@@ -14,6 +14,7 @@ def get_response(user_query, chat_history, classification):
     config = MODEL_CONFIG.get(classification)
     if not config:
         fallback_message = f"No model configured for classification '{classification}'"
+        print(classification)
         return iter([fallback_message])
     template_str = config.get("template")
     prompt = ChatPromptTemplate.from_template(template_str)
@@ -24,6 +25,8 @@ def get_response(user_query, chat_history, classification):
         streaming=True,
         temperature=0.8,
     )
+
+    print(llm.model_name)
     chain = prompt | llm | StrOutputParser()
     return chain.stream({
         "chat_history": chat_history,
