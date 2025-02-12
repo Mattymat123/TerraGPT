@@ -1,4 +1,4 @@
-aiodns==3.2.0
+ap iodns==3.2.0
 aiohttp==3.9.3
 aiohttp-retry==2.9.1
 aiosignal==1.3.2
