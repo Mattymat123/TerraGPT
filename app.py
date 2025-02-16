@@ -75,26 +75,20 @@ if not st.session_state.chat_history:
 
             # Velkommen til Terra GPT!
 
-            Terra GPT kombinerer grøn energi med høj ydeevne for bæredygtig AI, og giver dig dermed den bedste mulighed for at arbejde med AI på en måde, der er både energibevidst og effektiv.
-
- 
+            Terra GPT giver dig den bedste mulighed for at arbejde med AI på en energibevidst og effektiv måde.
 
             ## Energisparende ⚡
 
-            Terra GPT bruger mindre specialiserede energioptimerede AI-modeller, så du kan bruge AI med bedre samvittighed.
+            Terra GPT anvender specialiserede AI-modeller til at besvare dine spørgsmål. Disse modeller er små og kræver mindre computerkraft.  Du kan derfor bruge Terra GPT med god samvittighed.
 
             ## Høj Ydeevne 💪🏿
-
-
-            Med Terra GPT får du automatisk adgang til den bedste og mest specialiserede AI-modeller, der er tilpasset netop din specifikke opgave. 
-            Dermed får du bedre performance end chatGPT 4o med et lavere klimaaftryk. 
+           Med Terra GPT får du automatisk adgang til de nyeste og mest avancerede AI-modeller, der er skræddersyet til at løse dine specifikke opgaver.
+           Uanset om du skal skrive en e-mail, lave en kort historie eller programmere, leverer Terra GPT bedre performance end ChatGPT-4o med et meget lavere klimaaftryk.
              
             ## Sikkerhed og Data 🔒
-
-            Vi respekterer din privatliv og sikkerhed. Din data opbevares  hverken os eller vores leverandører.  
-
+           Hos Terra GPT bliver din data ikke opbevaret af tredjeparter eller solgt videre til andre leverandører. 
             
-            Terra GPT er klar til at hjælpe dig med dine opgaver :)
+            Terra GPT er klar til at hjælpe dig:)
             """,
             unsafe_allow_html=True
         )
