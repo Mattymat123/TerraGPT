@@ -9,15 +9,15 @@ def classify_diamond(prompt):
             {"role": "user", "content": prompt}
         ],
         model=[
-            "perplexity/llama-3.1-sonar-large-128k-online",
+            "perplexity/sonar",
             "togetherai/Llama-3-8b-chat-hf",
             "replicate/meta-llama-3-70b-instruct",
             "mistral/codestral-latest",
             "cohere/command-r-plus"
-        ],
+        ], tradeoff= "cost"
     )
     model_to_label = {
-        "llama-3.1-sonar-large-128k-online": "web-search",
+        "sonar": "web-search",
         "meta-llama-3-70b-instruct": "instruction",
         "codestral-latest": "coding",
         "Llama-3-8b-chat-hf": "conversation",

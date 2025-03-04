@@ -45,7 +45,7 @@ client = NotDiamond(api_key="sk-9757bf097cf91c6727a251c97e278338a254c18d4f309020
 
 def energi_sparet(provider_model):
     deepseek_forskelle = {
-        'llama-3.1-sonar-large-128k-online': 48,
+        'sonar': 9.6,
         'Llama-3-8b-chat-hf': 48,
         'meta-llama-3-70b-instruct': 9.6,
         'codestral-latest': 21,
