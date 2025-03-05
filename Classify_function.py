@@ -14,7 +14,7 @@ def classify_diamond(prompt):
             "replicate/meta-llama-3-70b-instruct",
             "mistral/codestral-latest",
             "cohere/command-r-plus"
-        ], tradeoff= "cost"
+        ]
     )
     model_to_label = {
         "sonar": "web-search",

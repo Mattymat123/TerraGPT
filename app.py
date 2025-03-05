@@ -43,7 +43,7 @@ st.markdown('<meta name="viewport" content="width=device-width, initial-scale=1.
 user_query = st.chat_input("Din besked")
 client = NotDiamond(api_key="sk-9757bf097cf91c6727a251c97e278338a254c18d4f309020")
 
-def energi_sparet(provider_model):
+def energi_sparet(provider_model, model):
     deepseek_forskelle = {
         'sonar': 9.6,
         'Llama-3-8b-chat-hf': 48,
@@ -51,9 +51,30 @@ def energi_sparet(provider_model):
         'codestral-latest': 21,
         "command-r-plus": 15
     }
-    deepseek_forskel = deepseek_forskelle.get(provider_model)
-    print(provider_model)
-    return deepseek_forskel
+    claude_forskelle = {
+        'sonar': 2.5,
+        'Llama-3-8b-chat-hf': 12.5,
+        'meta-llama-3-70b-instruct': 2.5,
+        'codestral-latest': 5.5,
+        "command-r-plus": 5
+    }
+    Chat_GPT_forskelle = {
+        'sonar': 2.3,
+        'Llama-3-8b-chat-hf': 12.5,
+        'meta-llama-3-70b-instruct': 2.5,
+        'codestral-latest': 5.5,
+        "command-r-plus": 5
+    }
+
+    # Choose the correct dictionary based on the model parameter
+    if model == '🐋 Deepseek R1':
+        forskelle = deepseek_forskelle
+    elif model == '✺ Claude 3.5 Sonnet':
+        forskelle = claude_forskelle
+    elif model == '֍ ChatGPT 4o':
+        forskelle = Chat_GPT_forskelle
+    forskel = forskelle.get(provider_model)
+    return forskel
 
 if user_query:
     classification, _ = classify_diamond(user_query)
@@ -100,27 +121,6 @@ for message in st.session_state.chat_history:
         with st.chat_message("assistant", avatar="frontend/robot.svg"):
             st.markdown(message.content)
 
-if user_query:
-    st.session_state.chat_history.append(HumanMessage(content=user_query))
-    with st.chat_message("user", avatar="frontend/user.svg"):
-        st.markdown(user_query)
-    streamed_response = ""
-    with st.chat_message("assistant", avatar="frontend/robot.svg"):
-        response_placeholder = st.empty()
-        for chunk in get_response(user_query, st.session_state.chat_history, classification):
-            streamed_response += chunk
-            response_placeholder.markdown(streamed_response + "▌")
-        final_label, model = classify_diamond(f"{user_query}")
-        energi_forskel = energi_sparet(model)
-        energi_forskel = 100/energi_forskel
-        print(energi_forskel)
-        energi_forskel = int(energi_forskel)
-        st.session_state.energi = energi_forskel
-        st.session_state.energi_percent = 100-energi_forskel
-        response_placeholder.markdown(streamed_response)
-    st.session_state.chat_history.append(AIMessage(content=streamed_response))
-
-# Left side of screen
 with st.sidebar.container():
     col1 = st.columns([1])[0]
 
@@ -143,6 +143,27 @@ with st.sidebar.container():
     for button in buttons:
         if button:
             st.write(f"Button clicked: {button}")
+    option = st.selectbox("Sammenlignet med AI-model", options=['🐋 Deepseek R1', '֍ ChatGPT 4o', "✺ Claude 3.5 Sonnet"])
+
+if user_query:
+    st.session_state.chat_history.append(HumanMessage(content=user_query))
+    with st.chat_message("user", avatar="frontend/user.svg"):
+        st.markdown(user_query)
+    streamed_response = ""
+    with st.chat_message("assistant", avatar="frontend/robot.svg"):
+        response_placeholder = st.empty()
+        for chunk in get_response(user_query, st.session_state.chat_history, classification):
+            streamed_response += chunk
+            response_placeholder.markdown(streamed_response + "▌")
+        final_label, model = classify_diamond(f"{user_query}")
+        energi_forskel = energi_sparet(model, option)
+        energi_forskel = 100/energi_forskel
+        print(energi_forskel)
+        energi_forskel = int(energi_forskel)
+        st.session_state.energi = energi_forskel
+        st.session_state.energi_percent = 100-energi_forskel
+        response_placeholder.markdown(streamed_response)
+    st.session_state.chat_history.append(AIMessage(content=streamed_response))
 
 with st.sidebar.container():
 
@@ -157,6 +178,5 @@ with st.sidebar.container():
         slider_color = ('#421713'),
         default_value = st.session_state.energi
     )
-    st.selectbox("Sammenlignet med AI-model", options=['🐋 Deepseek R1', '֍ ChatGPT 4o', "✺ Claude 3.5 Sonnet"])
 
 
